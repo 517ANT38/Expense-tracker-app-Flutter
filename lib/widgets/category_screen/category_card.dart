@@ -9,11 +9,12 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(category.title);
     return ListTile(
       onTap: () {
         Navigator.of(context).pushNamed(
           ExpenseScreen.name,
-          arguments: category.title, // for expensescreen.
+          arguments: category.title,
         );
       },
       leading: Padding(

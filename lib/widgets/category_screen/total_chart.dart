@@ -30,7 +30,7 @@ class _TotalChartState extends State<TotalChart> {
                   fit: BoxFit.scaleDown,
                   child: Text(
                     'Общие Затраты: ${NumberFormat.currency(locale: 'ru_IN', symbol: '₽').format(total)}',
-                    textScaleFactor: 1.5,
+                    
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),

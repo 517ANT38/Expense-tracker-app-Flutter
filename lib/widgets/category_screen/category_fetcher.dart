@@ -28,6 +28,8 @@ class _CategoryFetcherState extends State<CategoryFetcher> {
 
   @override
   Widget build(BuildContext context) {
+   
+    _categoryList.then((x){print(x); return x;});
     return FutureBuilder(
       future: _categoryList,
       builder: (_, snapshot) {
