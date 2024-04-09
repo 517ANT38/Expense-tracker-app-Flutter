@@ -9,7 +9,6 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(category.title);
     return ListTile(
       onTap: () {
         Navigator.of(context).pushNamed(
