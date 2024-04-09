@@ -14,8 +14,8 @@ class _AllExpensesState extends State<AllExpenses> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Все расходы'),
-        backgroundColor: Colors.red[400],
+        title: const Text('Все расходы',style: TextStyle(color: Color.fromARGB(255, 93, 3, 109))),
+        backgroundColor: const Color.fromARGB(255, 80, 239, 128),
       ),
       body: const AllExpensesFetcher(),
     );

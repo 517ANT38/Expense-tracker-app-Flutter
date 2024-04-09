@@ -18,12 +18,11 @@ class _ExpenseFormState extends State<ExpenseForm> {
   DateTime? _date;
   String _initialValue = 'Прочее';
 
-  //
   _pickDate() async {
     DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2022),
+        firstDate: DateTime(2023),
         lastDate: DateTime.now(),
         locale:  const Locale('ru', 'RU')
         
@@ -46,7 +45,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // title
             TextField(
               controller: _title,
               decoration: const InputDecoration(
@@ -54,7 +52,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
               ),
             ),
             const SizedBox(height: 20.0),
-            // amount
             TextField(
               controller: _amount,
               keyboardType: TextInputType.number,
@@ -63,7 +60,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
               ),
             ),
             const SizedBox(height: 20.0),
-            // date picker
             Row(
               children: [
                 Expanded(
@@ -78,7 +74,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
               ],
             ),
             const SizedBox(height: 20.0),
-            // category
             Row(
               children: [
                 const Expanded(child: Text('Категории')),
@@ -105,11 +100,10 @@ class _ExpenseFormState extends State<ExpenseForm> {
             const SizedBox(height: 20.0),
             ElevatedButton.icon(
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.red[400]),
+                backgroundColor: MaterialStatePropertyAll(const Color.fromARGB(255, 80, 239, 128)),
               ),
               onPressed: () {
                 if (_title.text != '' && _amount.text != '') {
-                  // create an expense
                   final file = Expense(
                     id: 0,
                     title: _title.text,
@@ -117,9 +111,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
                     date: _date != null ? _date! : DateTime.now(),
                     category: _initialValue,
                   );
-                  // add it to database.
                   provider.addExpense(file);
-                  // close the bottomsheet
                   Navigator.of(context).pop();
                 }
               },
