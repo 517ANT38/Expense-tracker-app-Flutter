@@ -21,14 +21,14 @@ class ConfirmBox extends StatelessWidget {
         children: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(false); // dont delete
+              Navigator.of(context).pop(false); 
             },
             child: const Text('Отмена'),
           ),
           const SizedBox(width: 5.0),
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pop(true); // delete
+              Navigator.of(context).pop(true);
               provider.deleteExpense(exp.id, exp.category, exp.amount);
             },
             child: const Text('Удалить'),

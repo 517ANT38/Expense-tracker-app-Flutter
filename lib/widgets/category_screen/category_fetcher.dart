@@ -23,7 +23,6 @@ class _CategoryFetcherState extends State<CategoryFetcher> {
   @override
   void initState() {
     super.initState();
-    // fetch the list and set it to _categoryList
     _categoryList = _getCategoryList();
   }
 
@@ -33,7 +32,6 @@ class _CategoryFetcherState extends State<CategoryFetcher> {
       future: _categoryList,
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          // if connection is done then check for errors or return the result
           if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           } else {

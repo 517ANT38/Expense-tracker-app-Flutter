@@ -12,7 +12,6 @@ class CategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<DatabaseProvider>(
       builder: (_, db, __) {
-        // get the categories
         var list = db.categories;
         return ListView.builder(
             physics: const BouncingScrollPhysics(

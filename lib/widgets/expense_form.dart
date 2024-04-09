@@ -16,7 +16,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
   final _title = TextEditingController();
   final _amount = TextEditingController();
   DateTime? _date;
-  String _initialValue = 'Other';
+  String _initialValue = 'Прочее';
 
   //
   _pickDate() async {
@@ -24,7 +24,10 @@ class _ExpenseFormState extends State<ExpenseForm> {
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2022),
-        lastDate: DateTime.now());
+        lastDate: DateTime.now(),
+        locale:  const Locale('ru', 'RU')
+        
+        );
 
     if (pickedDate != null) {
       setState(() {
