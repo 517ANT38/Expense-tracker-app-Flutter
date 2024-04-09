@@ -14,6 +14,13 @@ class _AllExpensesState extends State<AllExpenses> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          tooltip: 'Назад',
+        ),
         title: const Text('Все расходы',style: TextStyle(color: Color.fromARGB(255, 93, 3, 109))),
         backgroundColor: const Color.fromARGB(255, 80, 239, 128),
       ),
