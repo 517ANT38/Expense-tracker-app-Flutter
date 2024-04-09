@@ -50,7 +50,7 @@ class _ExpenseChartState extends State<ExpenseChart> {
               sideTitles: SideTitles(
                 showTitles: true,
                 getTitlesWidget: (value, _) =>
-                    Text(DateFormat.E().format(list[value.toInt()]['day'])),
+                    Text(DateFormat.E("ru").format(list[value.toInt()]['day'])),
               ),
             ),
           ),
