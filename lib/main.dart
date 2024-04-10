@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_finance/screens/all_plans.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         CategoryScreen.name: (_) => const CategoryScreen(),
         ExpenseScreen.name: (_) => const ExpenseScreen(),
         AllExpenses.name: (_) => const AllExpenses(),
+        AllPlans.name: (_) => const AllPlans(),
       },
     );
   }

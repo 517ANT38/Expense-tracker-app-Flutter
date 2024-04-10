@@ -102,7 +102,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(const Color.fromARGB(255, 80, 239, 128)),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (_title.text != '' && _amount.text != '') {
                   final file = Expense(
                     id: 0,
@@ -111,7 +111,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
                     date: _date != null ? _date! : DateTime.now(),
                     category: _initialValue,
                   );
-                  provider.addExpense(file);
+                  await provider.addExpense(file);
                   Navigator.of(context).pop();
                 }
               },

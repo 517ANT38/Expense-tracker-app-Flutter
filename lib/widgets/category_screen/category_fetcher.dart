@@ -1,3 +1,4 @@
+import 'package:app_finance/screens/all_plans.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/database_provider.dart';
@@ -52,6 +53,12 @@ class _CategoryFetcherState extends State<CategoryFetcher> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(AllPlans.name);
+                        },
+                        child: const Text('Задачи'),
                       ),
                       TextButton(
                         onPressed: () {
