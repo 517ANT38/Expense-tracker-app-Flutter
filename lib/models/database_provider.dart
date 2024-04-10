@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../constants/icons.dart';
@@ -28,9 +29,9 @@ class DatabaseProvider with ChangeNotifier {
 
   Database? _database;
   Future<Database> get database async {
-    final dbDirectory = await getDatabasesPath();
+    final dbDirectory = await getApplicationDocumentsDirectory();
     const dbName = 'expense_tc.db';
-    final path = join(dbDirectory, dbName);
+    final path = join(dbDirectory.path, dbName);
 
     _database = await openDatabase(
       path,
