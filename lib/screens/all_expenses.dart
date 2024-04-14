@@ -21,8 +21,8 @@ class _AllExpensesState extends State<AllExpenses> {
           },
           tooltip: 'Назад',
         ),
-        title: const Text('Все расходы',style: TextStyle(color: Color.fromARGB(255, 93, 3, 109))),
-        backgroundColor: const Color.fromARGB(255, 80, 239, 128),
+        title: const Text('Все расходы',style: TextStyle(color: Color.fromARGB(255, 33, 27, 49))),
+        backgroundColor: const Color.fromARGB(255, 236, 95, 70),
       ),
       body: const AllExpensesFetcher(),
     );

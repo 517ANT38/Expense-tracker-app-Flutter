@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 Map<String, IconData> icons = {
-  'Транспорт': Icons.directions_bus,
-  'Хобби': Icons.directions_bike,
+  'Транспорт': Icons.directions_car,
+  'Хобби': Icons.palette,
   'Еда и напитки': Icons.fastfood,
-  'Развлечения': Icons.map,
-  'Учеба': Icons.book,
+  'Развлечения': Icons.headphones,
+  'Учеба': Icons.science,
   'Прочее': Icons.local_activity,
 };

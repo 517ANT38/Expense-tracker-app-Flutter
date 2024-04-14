@@ -22,8 +22,8 @@ class _AllExpensesState extends State<AllPlans> {
           tooltip: 'Назад',
         ),
         title: const Text('Все Задачи',
-            style: TextStyle(color: Color.fromARGB(255, 93, 3, 109))),
-        backgroundColor: const Color.fromARGB(255, 80, 239, 128),
+            style: TextStyle(color: Color.fromARGB(255, 33, 27, 49))),
+        backgroundColor: const Color.fromARGB(255, 236, 95, 70),
       ),
       body: const AllPlansFetcher(),
     );

@@ -100,7 +100,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
             const SizedBox(height: 20.0),
             ElevatedButton.icon(
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(const Color.fromARGB(255, 80, 239, 128)),
+                backgroundColor: MaterialStatePropertyAll(const Color.fromARGB(255, 236, 95, 70)),
               ),
               onPressed: () async {
                 if (_title.text != '' && _amount.text != '') {

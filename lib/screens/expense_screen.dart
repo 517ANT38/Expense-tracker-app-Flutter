@@ -16,8 +16,8 @@ class ExpenseScreen extends StatelessWidget {
           },
           tooltip: 'Назад',
         ),
-        title: const Text('Расход по категории',style: TextStyle(color: Color.fromARGB(255, 93, 3, 109))),
-        backgroundColor: const Color.fromARGB(255, 80, 239, 128),
+        title: const Text('Расход по категории',style: TextStyle(color: Color.fromARGB(255, 33, 27, 49))),
+        backgroundColor: const Color.fromARGB(255, 236, 95, 70),
       ),
       body: ExpenseFetcher(category),
     );

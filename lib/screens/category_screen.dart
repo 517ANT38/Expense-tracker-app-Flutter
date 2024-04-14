@@ -10,8 +10,8 @@ class CategoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         
-        title: const Text('Категории',style: TextStyle(color: Color.fromARGB(255, 93, 3, 109)),),
-        backgroundColor: const Color.fromARGB(255, 80, 239, 128),
+        title: const Text('Категории',style: TextStyle(color: Color.fromARGB(255, 33, 27, 49)),),
+        backgroundColor: const Color.fromARGB(255, 236, 95, 70),
       ),
       body: const CategoryFetcher(),
       floatingActionButton: FloatingActionButton(
@@ -22,8 +22,8 @@ class CategoryScreen extends StatelessWidget {
             builder: (_) => const ExpenseForm(),
           );
         },
-        backgroundColor: const Color.fromARGB(255, 80, 239, 128),
-        child: const Icon(Icons.add,color: Color.fromARGB(255, 93, 3, 109),),
+        backgroundColor: const Color.fromARGB(255, 236, 95, 70),
+        child: const Icon(Icons.add,color: Color.fromARGB(255, 33, 27, 49),),
       ),
     );
   }

@@ -200,6 +200,7 @@ class DatabaseProvider with ChangeNotifier {
   Future<bool> addExpense(Expense exp) async {
     final db = await database;
     bool win = false;
+    print(0);
     await db.transaction((txn) async {
       await txn
           .insert(
@@ -223,54 +224,62 @@ class DatabaseProvider with ChangeNotifier {
             exp.category, ex.entries + 1, ex.totalAmount + exp.amount);
       });
       
-      
+      print(1);
     });
-
+    print(2);
     await db.transaction((txn) async {
-      double totalAmount = 0.0;
-      bool isCheck = true;
+      print(21);
+      if (_plans.length != 0) {
+        double totalAmount = 0.0;
+        bool isCheck = true;
 
-      for (final expense in _expenses) {
-        totalAmount += expense.amount;
-      }
-
-      final lastPlan = _plans.last;
-
-      for (final category in _categories) {
-        if (findCategory(category.title).totalAmount <
-            lastPlan.minMoneyCategory) {
-          isCheck = false;
+        for (final expense in _expenses) {
+          totalAmount += expense.amount;
         }
-      }
-      if (totalAmount == lastPlan.allMoney && isCheck) {
-        lastPlan.isDone = true;
-        await txn.update(
-          pTable,
-          lastPlan.toMap(),
-          where: 'id = ?',
-          whereArgs: [lastPlan.id],
-        );
-        
-        await txn.delete(eTable);
+        print(22);
+
+        final lastPlan = _plans.last;
 
         for (final category in _categories) {
-          updateCategory(category.title, 0, 0);
+          if (findCategory(category.title).totalAmount <
+              lastPlan.minMoneyCategory) {
+            isCheck = false;
+          }
         }
+        print(23);
+        if (totalAmount == lastPlan.allMoney && isCheck) {
+          lastPlan.isDone = true;
+          await txn.update(
+            pTable,
+            lastPlan.toMap(),
+            where: 'id = ?',
+            whereArgs: [lastPlan.id],
+          );
+          print(24);
+          await txn.delete(eTable);
+          print(25);
+          for (final category in _categories) {
+            updateCategory(category.title, 0, 0);
+          }
+          print(26);
+          final allMoneyRandom = Random().nextInt(180001) + 20000;
+          final minMoneyCategory = (allMoneyRandom * 0.1).toStringAsFixed(2);
 
-        final allMoneyRandom = Random().nextInt(180001) + 20000;
-        final minMoneyCategory = (allMoneyRandom * 0.1).toStringAsFixed(2);
-
-        await txn.insert(pTable, {
-          'title': 'План ' + (lastPlan.id + 1).toString(),
-          'allMoney': allMoneyRandom.toString(),
-          'minMoneyCategory': minMoneyCategory,
-          'isDone': 'false',
-        });
-        win = true;
+          await txn.insert(pTable, {
+            'title': 'План ' + (lastPlan.id + 1).toString(),
+            'allMoney': allMoneyRandom.toString(),
+            'minMoneyCategory': minMoneyCategory,
+            'isDone': 'false',
+          });
+          print(27);
+          win = true;
+        }
+        print(3);
       }
+      
     });
     
-
+    print(4);
     return win;
   }
 
