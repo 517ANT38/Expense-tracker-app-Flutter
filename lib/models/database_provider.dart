@@ -200,7 +200,7 @@ class DatabaseProvider with ChangeNotifier {
   Future<bool> addExpense(Expense exp) async {
     final db = await database;
     bool win = false;
-    print(0);
+
     await db.transaction((txn) async {
       await txn
           .insert(
@@ -223,12 +223,10 @@ class DatabaseProvider with ChangeNotifier {
         updateCategory(
             exp.category, ex.entries + 1, ex.totalAmount + exp.amount);
       });
-      
-      print(1);
     });
-    print(2);
+
     await db.transaction((txn) async {
-      print(21);
+
       if (_plans.length != 0) {
         double totalAmount = 0.0;
         bool isCheck = true;
@@ -236,7 +234,7 @@ class DatabaseProvider with ChangeNotifier {
         for (final expense in _expenses) {
           totalAmount += expense.amount;
         }
-        print(22);
+
 
         final lastPlan = _plans.last;
 
@@ -246,7 +244,7 @@ class DatabaseProvider with ChangeNotifier {
             isCheck = false;
           }
         }
-        print(23);
+
         if (totalAmount == lastPlan.allMoney && isCheck) {
           lastPlan.isDone = true;
           await txn.update(
@@ -255,13 +253,13 @@ class DatabaseProvider with ChangeNotifier {
             where: 'id = ?',
             whereArgs: [lastPlan.id],
           );
-          print(24);
+
           await txn.delete(eTable);
-          print(25);
+
           for (final category in _categories) {
             updateCategory(category.title, 0, 0);
           }
-          print(26);
+
           final allMoneyRandom = Random().nextInt(180001) + 20000;
           final minMoneyCategory = (allMoneyRandom * 0.1).toStringAsFixed(2);
 
@@ -271,10 +269,10 @@ class DatabaseProvider with ChangeNotifier {
             'minMoneyCategory': minMoneyCategory,
             'isDone': 'false',
           });
-          print(27);
+
           win = true;
         }
-        print(3);
+
       }
       
     });
