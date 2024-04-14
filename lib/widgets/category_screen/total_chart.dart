@@ -45,7 +45,7 @@ class _TotalChartState extends State<TotalChart> {
                         Container(
                           width: 8.0,
                           height: 8.0,
-                          color: Colors.primaries[list.indexOf(e)],
+                          color: Colors.primaries[list.indexOf(e) * 2],
                         ),
                         const SizedBox(width: 5.0),
                         Text(
@@ -73,7 +73,7 @@ class _TotalChartState extends State<TotalChart> {
                           (e) => PieChartSectionData(
                             showTitle: false,
                             value: e.totalAmount,
-                            color: Colors.primaries[list.indexOf(e)],
+                            color: Colors.primaries[list.indexOf(e) * 2],
                           ),
                         )
                         .toList()
@@ -81,7 +81,7 @@ class _TotalChartState extends State<TotalChart> {
                         .map(
                           (e) => PieChartSectionData(
                             showTitle: false,
-                            color: Colors.primaries[list.indexOf(e)],
+                            color: Colors.primaries[list.indexOf(e) * 2],
                           ),
                         )
                         .toList(),
