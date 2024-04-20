@@ -8,3 +8,12 @@ Map<String, IconData> icons = {
   'Учеба': Icons.science,
   'Прочее': Icons.local_activity,
 };
+
+Map<String, String> trans = {
+  'Транспорт': 'car',
+  'Хобби': 'palette',
+  'Еда и напитки': 'food',
+  'Развлечения': 'headphones',
+  'Учеба': 'science',
+  'Прочее': 'localActivity',
+};

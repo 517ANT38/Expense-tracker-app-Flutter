@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:app_finance/models/basket_plan.dart';
+import 'package:app_finance/widgets/expense_screen/plan_card.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../constants/icons.dart';
@@ -16,12 +18,12 @@ class DatabaseProvider with ChangeNotifier {
     _searchText = value;
     notifyListeners();
   }
-
+  
   List<BasketPlan> _plans = [];
   List<BasketPlan> get plans {return _searchText != ''
         ? _plans
             .where((e) =>
-                e.title.toLowerCase().contains(_searchText.toLowerCase()))
+                e.id == int.tryParse(_searchText.split('').last))
             .toList()
         : _plans;
   }
@@ -46,9 +48,10 @@ class DatabaseProvider with ChangeNotifier {
     const dbName = 'expense_tc.db';
     final path = join(dbDirectory.path, dbName);
 
-    // if (await databaseExists(path)) {
-    //   await deleteDatabase(path);
-    // }
+    if (await databaseExists(path)) {
+      _database = await openDatabase(path);
+      return _database!;
+    }
 
     _database = await openDatabase(
       path,
@@ -63,12 +66,17 @@ class DatabaseProvider with ChangeNotifier {
   static const cTable = 'categoryTable';
   static const eTable = 'expenseTable';
   static const pTable = 'planTable';
+  
+  
   Future<void> _createDb(Database db, int version) async {
    
 
     await db.transaction((txn) async {
-  
+    
+     
+
       await txn.execute('''CREATE TABLE $cTable(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         entries INTEGER,
         totalAmount TEXT
@@ -86,26 +94,16 @@ class DatabaseProvider with ChangeNotifier {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         allMoney TEXT,
-        minMoneyCategory TEXT,
+        science TEXT,
+        car TEXT,
+        food TEXT,
+        palette TEXT,
+        headphones TEXT,
+        localActivity TEXT,
         isDone TEXT
       )''');
 
-      final allMoneyRandom = Random().nextInt(180001) +
-          20000;
-      final minMoneyCategory =
-          (allMoneyRandom * 0.1).toStringAsFixed(2);
-      int? count = Sqflite.firstIntValue(
-          await txn.rawQuery('SELECT COUNT(*) FROM $pTable'));
-      if (count == 0) {
-        await txn.insert(pTable, {
-          'title': 'План 1',
-          'allMoney': allMoneyRandom.toString(),
-          'minMoneyCategory': minMoneyCategory,
-          'isDone': 'false',
-        });
-      }
-      
-      for (int i = 0; i < icons.length; i++) {
+     for (int i = 0; i < icons.length; i++) {
         await txn.insert(cTable, {
           'title': icons.keys.toList()[i],
           'entries': 0,
@@ -174,9 +172,42 @@ class DatabaseProvider with ChangeNotifier {
     });
   }
 
+  List<int> genRandomListProcent(){
+    var random = Random();
+    var numbers = List<int>.generate(6, (index) => random.nextInt(100));
+
+    
+    while (numbers.reduce((a, b) => a + b) != 100) {
+      numbers = List<int>.generate(6, (index) => random.nextInt(100));
+    }
+
+    return numbers;
+  }
+
+
+  Future<void> generatePlan() async {
+    final sum = Random().nextInt(10000)+20000.0;
+    final nums = genRandomListProcent();
+    var  p = BasketPlan(
+      id: 0,
+      allMoney: sum, 
+      car: nums[0],
+      food: nums[1],
+      palette: nums[3],
+      science: nums[4],
+      localActivity: nums[5],
+      headphones:  nums[2],
+      isDone: false
+      );
+    await addPlan(p);
+
+  }
+
   Future<void> addPlan(BasketPlan bsp) async {
     final db = await database;
     await db.transaction((txn) async {
+       
+
       await txn
           .insert(
         pTable,
@@ -186,9 +217,13 @@ class DatabaseProvider with ChangeNotifier {
           .then((generatedId) {
         final file = BasketPlan(
             id: generatedId,
-            title: bsp.title,
             allMoney: bsp.allMoney,
-            minMoneyCategory: bsp.minMoneyCategory,
+            science : bsp.science,
+            car: bsp.car,
+            food: bsp.food,
+            palette: bsp.palette,
+            headphones: bsp.headphones,
+            localActivity: bsp.localActivity,
             isDone: bsp.isDone);
 
         _plans.add(file);
@@ -224,61 +259,51 @@ class DatabaseProvider with ChangeNotifier {
             exp.category, ex.entries + 1, ex.totalAmount + exp.amount);
       });
     });
-
+     
     await db.transaction((txn) async {
-
+      
+      
       if (_plans.length != 0) {
-        double totalAmount = 0.0;
-        bool isCheck = true;
+        BasketPlan? res = null; 
+        var fl = true;
+        for(final p in _plans){
 
-        for (final expense in _expenses) {
-          totalAmount += expense.amount;
-        }
+          var m = p.toMap();
+          for (final category in _categories) {
+            if (!(findCategory(category.title).totalAmount.toInt() ==
+                (p.allMoney * (int.parse(m[trans[category.title]])/100)).toInt())) {
+                break;
+            }
+          }
 
 
-        final lastPlan = _plans.last;
-
-        for (final category in _categories) {
-          if (findCategory(category.title).totalAmount <
-              lastPlan.minMoneyCategory) {
-            isCheck = false;
+          if(fl){
+            res = p;
           }
         }
 
-        if (totalAmount == lastPlan.allMoney && isCheck) {
-          lastPlan.isDone = true;
+        if (res != null) {
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          res.isDone = true;
           await txn.update(
             pTable,
-            lastPlan.toMap(),
+            res.toMap(),
             where: 'id = ?',
-            whereArgs: [lastPlan.id],
+            whereArgs: [res.id],
           );
-
-          await txn.delete(eTable);
-
-          for (final category in _categories) {
-            updateCategory(category.title, 0, 0);
-          }
-
-          final allMoneyRandom = Random().nextInt(180001) + 20000;
-          final minMoneyCategory = (allMoneyRandom * 0.1).toStringAsFixed(2);
-
-          await txn.insert(pTable, {
-            'title': 'План ' + (lastPlan.id + 1).toString(),
-            'allMoney': allMoneyRandom.toString(),
-            'minMoneyCategory': minMoneyCategory,
-            'isDone': 'false',
-          });
-
           win = true;
-        }
 
-      }
-      
-    });
-    
-    print(4);
-    return win;
+          int? c = await prefs.getInt("counter");
+          if(c == null){
+            c = 5; 
+          }
+          else {
+            c += 5;
+          }
+           notifyListeners();
+          await prefs.setInt("counter", c);
+        }}});
+        return win;
   }
 
   Future<void> deleteExpense(int expId, String category, double amount) async {

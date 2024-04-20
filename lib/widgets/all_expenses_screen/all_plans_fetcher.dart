@@ -3,7 +3,6 @@ import 'package:app_finance/widgets/all_expenses_screen/plan_search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/database_provider.dart';
-import './all_expenses_list.dart';
 
 class AllPlansFetcher extends StatefulWidget {
   const AllPlansFetcher({super.key});

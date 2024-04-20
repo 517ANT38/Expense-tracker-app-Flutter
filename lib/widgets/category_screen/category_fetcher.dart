@@ -1,6 +1,7 @@
 import 'package:app_finance/screens/all_plans.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/database_provider.dart';
 import './total_chart.dart';
 import './category_list.dart';
@@ -60,11 +61,16 @@ class _CategoryFetcherState extends State<CategoryFetcher> {
                         },
                         child: const Text('Задачи'),
                       ),
+                      TextButton(onPressed: () {
+                         showAlertDialog(context);
+                          
+                      }, child: const Text("Мой общий балл")),
+
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pushNamed(AllExpenses.name);
                         },
-                        child: const Text('Увидеть все'),
+                        child: const Text('Увидеть все расходы'),
                       ),
                     ],
                   ),
@@ -79,4 +85,30 @@ class _CategoryFetcherState extends State<CategoryFetcher> {
       },
     );
   }
+
+  showAlertDialog(BuildContext context) async {
+ final SharedPreferences prefs = await SharedPreferences.getInstance();
+  var s = await prefs.getInt("counter");
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () { Navigator.of(context).pop(); },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Ваши баллы"),
+    content: Text("$s"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
 }
