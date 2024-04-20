@@ -264,14 +264,18 @@ class DatabaseProvider with ChangeNotifier {
       
       
       if (_plans.length != 0) {
+        var total = calculateTotalExpenses();
         BasketPlan? res = null; 
         var fl = true;
         for(final p in _plans){
 
           var m = p.toMap();
           for (final category in _categories) {
-            if (!(findCategory(category.title).totalAmount.toInt() ==
-                (p.allMoney * (int.parse(m[trans[category.title]])/100)).toInt())) {
+            var p_my = ((category.totalAmount/total)*100).toInt();
+            
+            var c_p = int.parse(m[trans[category.title]]);
+            if (p_my - c_p > 1) {               
+                fl = false;
                 break;
             }
           }
@@ -300,8 +304,14 @@ class DatabaseProvider with ChangeNotifier {
           else {
             c += 5;
           }
-           notifyListeners();
+           
           await prefs.setInt("counter", c);
+          await txn.delete(eTable);
+
+          for (final category in _categories) {
+            updateCategory(category.title, 0, 0);
+          }
+          notifyListeners();
         }}});
         return win;
   }
