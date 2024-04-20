@@ -1,7 +1,6 @@
 import 'package:app_finance/screens/all_plans.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/database_provider.dart';
 import './total_chart.dart';
 import './category_list.dart';
@@ -87,8 +86,9 @@ class _CategoryFetcherState extends State<CategoryFetcher> {
   }
 
   showAlertDialog(BuildContext context) async {
- final SharedPreferences prefs = await SharedPreferences.getInstance();
-  var s = await prefs.getInt("counter");
+  final provider = Provider.of<DatabaseProvider>(context, listen: false);
+  var list = await provider.fetchBasketPlans();
+  var s = list.where((element) => element.isDone).length * 5;
   Widget okButton = TextButton(
     child: Text("OK"),
     onPressed: () { Navigator.of(context).pop(); },

@@ -4,7 +4,6 @@ import 'package:app_finance/screens/all_plans.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import './models/database_provider.dart';
@@ -24,9 +23,7 @@ void main() async {
 
 
 Future<void> initApp() async {
-  SharedPreferences.setMockInitialValues({});
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setInt("counter", 0);
+  
   if (Platform.isWindows || Platform.isLinux) {
     sqfliteFfiInit();
   }

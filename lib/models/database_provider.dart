@@ -1,10 +1,8 @@
 import 'dart:math';
 
 import 'package:app_finance/models/basket_plan.dart';
-import 'package:app_finance/widgets/expense_screen/plan_card.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../constants/icons.dart';
@@ -265,16 +263,21 @@ class DatabaseProvider with ChangeNotifier {
       
       if (_plans.length != 0) {
         var total = calculateTotalExpenses();
+        if(_expenses.indexOf(exp) == -1){
+          total += exp.amount;
+        }
+        
         BasketPlan? res = null; 
         var fl = true;
-        for(final p in _plans){
-
+        for(var p in _plans){
+          fl=true;
           var m = p.toMap();
           for (final category in _categories) {
             var p_my = ((category.totalAmount/total)*100).toInt();
-            
+           
             var c_p = int.parse(m[trans[category.title]]);
-            if (p_my - c_p > 1) {               
+            if (p_my - c_p > 1) {  
+                     print("!!");      
                 fl = false;
                 break;
             }
@@ -287,7 +290,7 @@ class DatabaseProvider with ChangeNotifier {
         }
 
         if (res != null) {
-          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          
           res.isDone = true;
           await txn.update(
             pTable,
@@ -297,15 +300,7 @@ class DatabaseProvider with ChangeNotifier {
           );
           win = true;
 
-          int? c = await prefs.getInt("counter");
-          if(c == null){
-            c = 5; 
-          }
-          else {
-            c += 5;
-          }
-           
-          await prefs.setInt("counter", c);
+          
           await txn.delete(eTable);
 
           for (final category in _categories) {
