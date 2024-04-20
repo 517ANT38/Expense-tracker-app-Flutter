@@ -263,6 +263,7 @@ class DatabaseProvider with ChangeNotifier {
       
       if (_plans.length != 0) {
         var total = calculateTotalExpenses();
+        print(total);
         if(_expenses.indexOf(exp) == -1){
           total += exp.amount;
         }
@@ -276,8 +277,7 @@ class DatabaseProvider with ChangeNotifier {
             var p_my = ((category.totalAmount/total)*100).toInt();
            
             var c_p = int.parse(m[trans[category.title]]);
-            if (p_my - c_p > 1) {  
-                     print("!!");      
+            if ((p_my - c_p).abs() > 1) {                       
                 fl = false;
                 break;
             }
