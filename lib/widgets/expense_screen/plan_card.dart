@@ -12,21 +12,22 @@ class PlanCard extends StatelessWidget {
       key: ValueKey(bsp.id),
       direction: DismissDirection.none,
      
-      child: ListTile(
-        leading: Padding(
+      child: Column(
+        children:[ Padding(
           padding: const EdgeInsets.all(8.0),
         ),
-        title: Text("Задача ${bsp.id}"),
-        subtitle: Text(
+        Text("Задача ${bsp.id}"),
+        Text(
           bsp.isDone ? 'выполнен' : 'не выполнен',
           style: TextStyle(
             color: bsp.isDone ? Colors.green : Colors.red,
             fontWeight: FontWeight.bold,
           ),
         ),
-        trailing: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
+        Container(
+          child: Column(
+        
+          
           children: [
 
             Text('Требуется распределить сумму денег: на учебу ${bsp.science}%, '+
@@ -38,7 +39,7 @@ class PlanCard extends StatelessWidget {
             
           ],
         ),
-      ),
+      )]),
     );
   }
 }

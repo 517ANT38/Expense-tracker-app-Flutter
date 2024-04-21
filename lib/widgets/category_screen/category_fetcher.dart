@@ -69,7 +69,7 @@ class _CategoryFetcherState extends State<CategoryFetcher> {
                         onPressed: () {
                           Navigator.of(context).pushNamed(AllExpenses.name);
                         },
-                        child: const Text('Увидеть все расходы'),
+                        child: const Text('Все расходы'),
                       ),
                     ],
                   ),
