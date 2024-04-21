@@ -263,21 +263,30 @@ class DatabaseProvider with ChangeNotifier {
       
       if (_plans.length != 0) {
         var total = calculateTotalExpenses();
-        print(total);
+        
         if(_expenses.indexOf(exp) == -1){
+        
           total += exp.amount;
         }
-        
+    
         BasketPlan? res = null; 
         var fl = true;
         for(var p in _plans){
           fl=true;
           var m = p.toMap();
           for (final category in _categories) {
-            var p_my = ((category.totalAmount/total)*100).toInt();
+            
+            var categAm = category.totalAmount;
+            if (category.title == exp.category) {
+              categAm += exp.amount;
+            }
+            var p_my = ((categAm/total)*100).toInt();
            
             var c_p = int.parse(m[trans[category.title]]);
-            if ((p_my - c_p).abs() > 1) {                       
+            if ((p_my - c_p).abs() > 1) {
+                // print(category.title);
+                // print(p_my);
+                // print(c_p);                       
                 fl = false;
                 break;
             }
